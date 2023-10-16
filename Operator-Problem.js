@@ -1,17 +1,13 @@
-
 function expressionSolver(arr){
-    let solvedArray = arr.map(element=>{
-         if(Array.isArray(element)){
-             if(Array.isArray(element[1]) && Array.isArray(element[2])) {
-                 return '(' + expressionSolver(element) + ')'
-             }
-             return expressionSolver(element)
-         }
-         else{
-             return element
-         }
-     })
-      return solvedArray[1]+solvedArray[0]+solvedArray[2];
-  }
-  
-  console.log(expressionSolver(['OR', ['<', 'a', 'b'], ['AND',['==','c','d'],['!=','e','f']]]))
+    const [operator, ...rest] = arr
+    if(Array.isArray(rest[0])) {
+        rest[0] = expressionSolver(rest[0])
+    }
+    if(Array.isArray(rest[1])) {
+        rest[1] = expressionSolver(rest[1])
+    }
+    
+    return `( ${rest[0]} ${operator} ${rest[1]} )`
+}
+
+console.log(expressionSolver(['OR', ['<', 'a', 'b'], ['AND',['==','c','d'],['!=','e','f']]]))
